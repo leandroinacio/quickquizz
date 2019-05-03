@@ -1,6 +1,7 @@
 (function() {
   const question = document.getElementById("question");
   const choices = Array.from(document.getElementsByClassName("choice-text"));
+  const points = document.getElementById("points");
 
   let currentQuestion;
   let isAvailable = false;
@@ -9,6 +10,11 @@
       question: "What is the brazilian oficial language?",
       options: ["Spanish", "Portuguese", "English", "Chinese"],
       correctAnswer: 1
+    },
+    {
+      question: "What is the file extension to javascript files?",
+      options: [".ts", ".javascript", ".jvsc", "js"],
+      correctAnswer: 3
     }
   ];
   let score = 0;
@@ -62,6 +68,7 @@
 
         if (chosenOption == currentQuestion.correctAnswer) {
           score += CORRECT_BONUS;
+          points.innerText = score;
         }
 
         getNewQuestion();
