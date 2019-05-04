@@ -24,3 +24,41 @@
   padding: 1.5rem;
   width: 100%;
 }
+
+.correct {
+  background-color: #28a745;
+}
+
+.incorrect {
+  background-color: #dc3545;
+}
+
+.panel {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 2rem;
+}
+
+.panel-prefix {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.panel-text {
+  font-size: 5rem;
+  color: #56a5eb;
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 20rem;
+  height: 4rem;
+  margin-top: 1rem;
+  border: 0.3rem solid #56a5eb;
+}
+
+.progress-bar-full {
+  height: 3.4rem;
+  background-color: #56a5eb;
+  width: 50%;
+}

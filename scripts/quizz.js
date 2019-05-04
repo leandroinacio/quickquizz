@@ -1,8 +1,16 @@
 (function() {
+  // DOM elements
   const question = document.getElementById("question");
+  const questionNumber = document.getElementById("question-number");
   const choices = Array.from(document.getElementsByClassName("choice-text"));
-  const points = document.getElementById("points");
+  const scoreLabel = document.getElementById("score");
+  const progressBar = document.getElementById("progress-bar");
 
+  // Classes
+  const rightAnswerClass = "correct";
+  const incorrectAnswerClass = "incorrect";
+
+  // Basic variables structue
   let currentQuestion;
   let isAvailable = false;
   let questions = [
@@ -15,14 +23,16 @@
       question: "What is the file extension to javascript files?",
       options: [".ts", ".javascript", ".jvsc", "js"],
       correctAnswer: 3
+    },
+    {
+      question: "What is the currency used in Brazil?",
+      options: ["Dolars", "Euros", "Pesos", "Reais"],
+      correctAnswer: 3
     }
   ];
   let score = 0;
   let questionCounter = 0;
-
-  // Constants
   const CORRECT_BONUS = 10;
-  const MAX_QUESTIONS = 3;
 
   // Setup everything back to 0 and get first question
   startGame = () => {
@@ -42,10 +52,15 @@
       return;
     }
 
+    // Get new question and update labels
     questionCounter++;
-    const questionIndex = Math.floor(Math.random() * questions.length);
+    const questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
     question.innerText = currentQuestion.question;
+    questionNumber.innerText = `Question ${questionCounter}/${
+      questions.length
+    }`;
+    progressBar.style.width = `${(questionCounter / questions.length) * 100}%`;
 
     choices.map(choice => {
       const number = choice.dataset["number"];
@@ -66,12 +81,20 @@
         isAvailable = false;
         const chosenOption = e.target.dataset["number"];
 
+        let classToApply = incorrectAnswerClass;
         if (chosenOption == currentQuestion.correctAnswer) {
           score += CORRECT_BONUS;
-          points.innerText = score;
+          scoreLabel.innerText = score;
+          classToApply = rightAnswerClass;
+          localStorage.setItem("score", score);
         }
 
-        getNewQuestion();
+        // Show option result and get new question
+        e.target.parentElement.classList.add(classToApply);
+        setTimeout(() => {
+          e.target.parentElement.classList.remove(classToApply);
+          getNewQuestion();
+        }, 1000);
       });
     });
   };

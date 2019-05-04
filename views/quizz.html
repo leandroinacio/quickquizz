@@ -4,15 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-compatible" content="ie=edge" />
-    <title>Questions.com 😊</title>
+    <title>Quizz.com 😊</title>
     <link rel="stylesheet" href="../styles/app.css" />
     <link rel="stylesheet" href="../styles/quizz.css" />
   </head>
   <body>
     <div class="container">
-      <h1>Points: <label id="points">0</label></h1>
       <div id="home" class="flex-center flex-column">
         <div id="quiz" class="justify-center flex-column">
+          <div class="panel">
+            <div class="panel-item">
+              <p class="panel-prefix" id="question-number">Question #</p>
+              <div class="progress-bar">
+                <div class="progress-bar-full" id="progress-bar"></div>
+              </div>
+            </div>
+            <div class="panel-item">
+              <p class="panel-prefix">Score</p>
+              <p class="panel-text" id="score">0</p>
+            </div>
+          </div>
           <h2 id="question">ANSWER!</h2>
           <div class="choice-container">
             <p class="choice-prefix">A</p>

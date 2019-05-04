@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-compatible" content="ie=edge" />
+    <title>Quizz.com 😊</title>
+    <link rel="stylesheet" href="../styles/app.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="home" class="flex-center flex-column">
+        <div id="game-over" class="justify-center flex-column">
+          <!-- Option to submit score -->
+          <h1 id="final-score" class="justify-content">Final Score: 0</h1>
+          <form>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Enter your name"
+            />
+            <button
+              class="btn"
+              onclick="saveHighScore(event)"
+              id="submit"
+              disabled
+            >
+              Save
+            </button>
+          </form>
+
+          <!-- Option to replay -->
+          <a class="btn" href="/quizz.html">Play again</a>
+          <a class="btn" href="/">Go Home</a>
+        </div>
+      </div>
+    </div>
+    <script src="../scripts/game-over.js"></script>
+  </body>
+</html>
