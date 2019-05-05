@@ -5,31 +5,17 @@
   const choices = Array.from(document.getElementsByClassName("choice-text"));
   const scoreLabel = document.getElementById("score");
   const progressBar = document.getElementById("progress-bar");
+  const loader = document.getElementById("loader");
+  const quiz = document.getElementById("quiz");
 
   // Classes
   const rightAnswerClass = "correct";
   const incorrectAnswerClass = "incorrect";
 
-  // Basic variables structue
+  // Basic variables structure
   let currentQuestion;
   let isAvailable = false;
-  let questions = [
-    {
-      question: "What is the brazilian oficial language?",
-      options: ["Spanish", "Portuguese", "English", "Chinese"],
-      correctAnswer: 1
-    },
-    {
-      question: "What is the file extension to javascript files?",
-      options: [".ts", ".javascript", ".jvsc", "js"],
-      correctAnswer: 3
-    },
-    {
-      question: "What is the currency used in Brazil?",
-      options: ["Dolars", "Euros", "Pesos", "Reais"],
-      correctAnswer: 3
-    }
-  ];
+  let questions = [];
   let score = 0;
   let questionCounter = 0;
   const CORRECT_BONUS = 10;
@@ -43,6 +29,9 @@
     availableQuestions = [...questions];
     getNewQuestion();
     setupClickOnOptions();
+
+    loader.classList.add("hidden");
+    quiz.classList.remove("hidden");
   };
 
   getNewQuestion = () => {
@@ -56,7 +45,7 @@
     questionCounter++;
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
-    question.innerText = currentQuestion.question;
+    question.innerHTML = currentQuestion.question;
     questionNumber.innerText = `Question ${questionCounter}/${
       questions.length
     }`;
@@ -64,7 +53,7 @@
 
     choices.map(choice => {
       const number = choice.dataset["number"];
-      choice.innerText = currentQuestion.options[number];
+      choice.innerHTML = currentQuestion.options[number];
     });
 
     // Remove from unused questions' list
@@ -99,5 +88,37 @@
     });
   };
 
-  startGame();
+  fetchQuestions = () => {
+    // Fetch the questions and expect a json
+    loader.classList.remove("hidden");
+    quiz.classList.add("hidden");
+    fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple")
+      .then(res => {
+        return res.json();
+      })
+      .then(loadedQuestions => {
+        // Setup questions to return the object we are using
+        questions = loadedQuestions.results.map(unformattedQuestion => {
+          const correctOptionPosition = Math.floor(Math.random() * 4);
+          let opt = unformattedQuestion.incorrect_answers;
+          opt.splice(
+            correctOptionPosition,
+            0,
+            unformattedQuestion.correct_answer
+          );
+
+          return {
+            question: unformattedQuestion.question,
+            options: opt,
+            correctAnswer: correctOptionPosition
+          };
+        });
+
+        // Start the game with the questions retrieved
+        startGame();
+      })
+      .catch(err => console.log(err));
+  };
+
+  fetchQuestions();
 })();
